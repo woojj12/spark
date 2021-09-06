@@ -22,6 +22,8 @@ import org.apache.spark.mllib.linalg.{DenseVector, Vector, Vectors}
 import org.apache.spark.mllib.linalg.BLAS.{axpy, dot, scal}
 import org.apache.spark.mllib.util.MLUtils
 
+import org.apache.spark.mllib.JavaPackage
+
 /**
  * :: DeveloperApi ::
  * Class used to compute the gradient for a loss function, given a single data point.
@@ -235,23 +237,29 @@ class LogisticGradient(numClasses: Int) extends Gradient {
          * We address this by subtracting maxMargin from all the margins, so it's guaranteed
          * that all of the new margins will be smaller than zero to prevent arithmetic overflow.
          */
+        val doTornadoVM = false
         val sum = {
-          var temp = 0.0
-          if (maxMargin > 0) {
-            for (i <- 0 until numClasses - 1) {
-              margins(i) -= maxMargin
-              if (i == maxMarginIndex) {
-                temp += math.exp(-maxMargin)
-              } else {
+          if (doTornadoVM) {
+            JavaPackage.sum(maxMargin, numClasses, margins, maxMarginIndex)
+          }
+          else {
+            var temp = 0.0
+            if (maxMargin > 0) {
+              for (i <- 0 until numClasses - 1) {
+                margins(i) -= maxMargin
+                if (i == maxMarginIndex) {
+                  temp += math.exp(-maxMargin)
+                } else {
+                  temp += math.exp(margins(i))
+                }
+              }
+            } else {
+              for (i <- 0 until numClasses - 1) {
                 temp += math.exp(margins(i))
               }
             }
-          } else {
-            for (i <- 0 until numClasses - 1) {
-              temp += math.exp(margins(i))
-            }
+            temp
           }
-          temp
         }
 
         for (i <- 0 until numClasses - 1) {

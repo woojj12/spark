@@ -262,6 +262,10 @@
         <enabled>false</enabled>
       </snapshots>
     </repository>
+    <repository>
+      <id>universityOfManchester-graal</id>
+      <url>https://raw.githubusercontent.com/beehive-lab/tornado/maven-tornadovm</url>
+  </repository>
   </repositories>
   <pluginRepositories>
     <pluginRepository>
@@ -326,6 +330,48 @@
       <artifactId>junit-interface</artifactId>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>tornado</groupId>
+      <artifactId>tornado-api</artifactId>
+      <version>0.10</version>
+  </dependency>
+  <dependency>
+      <groupId>tornado</groupId>
+      <artifactId>tornado-matrices</artifactId>
+      <version>0.10</version>
+  </dependency>
+  <dependency>
+      <groupId>tornado</groupId>
+      <artifactId>tornado-annotation</artifactId>
+      <version>0.10</version>
+  </dependency>
+  <dependency>
+      <groupId>tornado</groupId>
+      <artifactId>tornado-drivers-opencl</artifactId>
+      <version>0.10</version>
+  </dependency>
+  <dependency>
+      <groupId>tornado</groupId>
+      <artifactId>tornado-drivers-opencl-jni</artifactId>
+      <version>0.10</version>
+  </dependency>
+  <dependency>
+      <groupId>tornado</groupId>
+      <artifactId>tornado-runtime</artifactId>
+      <version>0.10</version>
+  </dependency>
+  <!-- https://mvnrepository.com/artifact/org.graalvm.sdk/graal-sdk -->
+  <dependency>
+      <groupId>org.graalvm.sdk</groupId>
+      <artifactId>graal-sdk</artifactId>
+      <version>21.1.0</version>
+  </dependency>
+  <!-- https://mvnrepository.com/artifact/org.graalvm.compiler/compiler -->
+  <dependency>
+      <groupId>org.graalvm.compiler</groupId>
+      <artifactId>compiler</artifactId>
+      <version>21.1.0</version>
+  </dependency>
   </dependencies>
   <dependencyManagement>
     <dependencies>
@@ -2417,7 +2463,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-shade-plugin</artifactId>
-          <version>3.1.0</version>
+          <version>3.2.4</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
